@@ -1,0 +1,23 @@
+{
+  "name": "IASServoRemote-UI",
+  "version": "1.0.0",
+  "description": "OpenUI5 UI to Control a ESP8266 Servo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "gregor.wolf@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@openui5/sap.m": "^1.61.0",
+    "@openui5/sap.ui.core": "^1.61.0",
+    "@openui5/sap.ui.layout": "^1.61.0",
+    "@openui5/sap.ui.support": "^1.61.0",
+    "@openui5/themelib_sap_belize": "^1.61.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-compress": "^1.4.3"
+  }
+}

@@ -1,0 +1,20 @@
+<mvc:View controllerName="de.linuxdozent.ServoControl.controller.Servo" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<App id="idAppControl">
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<Slider enableTickmarks="true" min="0" max="180" step="5" 
+						value="{/pos}"
+						liveChange="onSliderLiveChange"
+						class="sapUiLargeMarginBottom" width="100%"/>
+					<Input id="posValue" value="{/pos}" enabled="false" />
+					<Button type="Accept"
+						text="Tür öffnen"
+						press="onPress" />
+					<Input id="buttonValue" value="{/buttonPos}" enabled="true" />
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
