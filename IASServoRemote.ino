@@ -110,40 +110,6 @@ void setup() {
     Serial.println(F("*-------------------------------------------------------------------------*"));
     /* TIP! You can use this callback to put your app on it's own configuration mode */
   });
-  
-  /* 
-  IAS.onModeButtonNoPress([]() {
-    Serial.println(F(" Mode Button is not pressed."));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-  
-  IAS.onFirstBoot([]() {                              
-    Serial.println(F(" Run or display something on the first time this app boots"));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-
-  IAS.onFirmwareUpdateCheck([]() {
-    Serial.println(F(" Checking if there is a firmware update available."));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-
-  IAS.onFirmwareUpdateDownload([]() {
-    Serial.println(F(" Downloading and Installing firmware update."));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-
-  IAS.onFirmwareUpdateError([]() {
-    Serial.println(F(" Update failed...Check your logs"));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-
-  IAS.onConfigMode([]() {
-    Serial.println(F(" Starting configuration mode. Search for my WiFi and connect to 192.168.4.1."));
-    Serial.println(F("*-------------------------------------------------------------------------*"));
-  });
-  */
-
-	/* TIP! delete the lines above when not used */
  
   //IAS.begin();
   IAS.begin('P');                          // Optional parameter: What to do with EEPROM on First boot of the app? 'F' Fully erase | 'P' Partial erase(default) | 'L' Leave intact
@@ -168,7 +134,11 @@ void setup() {
   myservo.write(pos);
   
 
-  // When the button is pressed in the WebApp     <<<<<<<<<<<<--------------- <<<-------------------- <<<-----------
+  // attach AsyncWebSocket
+  ws.onEvent(onEvent);
+  server.addHandler(&ws);
+  
+  // When the button is pressed in the WebApp
   server.on("/min", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
     request->send(200, F("text/json"), moveServoTo(atoi(angleMin)));    
