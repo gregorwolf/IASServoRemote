@@ -28,9 +28,9 @@ module.exports = function(grunt) {
                 },{
                     expand: true,
                     cwd: 'dist/',
-                    src: ['**/*.xml'],
+                    src: ['**/*.view.xml'],
                     dest: 'data/',
-                    ext: '.xml.gz'
+                    ext: '.view.xml.gz'
                 },{
                     expand: true,
                     cwd: 'dist/',
