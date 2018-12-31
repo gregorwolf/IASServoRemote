@@ -8,11 +8,6 @@
 						value="{/pos}"
 						liveChange="onSliderLiveChange"
 						class="sapUiLargeMarginBottom" width="100%"/>
-					<Input id="posValue" value="{/pos}" enabled="false" />
-					<Button type="Accept"
-						text="Tür öffnen"
-						press="onPress" />
-					<Input id="buttonValue" value="{/buttonPos}" enabled="true" />
 				</content>
 			</Page>
 		</pages>

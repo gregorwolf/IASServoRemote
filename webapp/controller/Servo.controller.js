@@ -29,17 +29,6 @@ sap.ui.define([
 			this.oWs.send(this.oModel.getProperty("/pos").toString());
 		},
 		
-		onPress: function () {
-			this.posBefore = this.oModel.getProperty("/pos");
-			var buttonPos = this.oModel.getProperty("/buttonPos");
-			this.oModel.setProperty("/pos", buttonPos);
-			setTimeout(function () {
-				this.oModel.setProperty("/pos", this.posBefore);
-				this.onSliderLiveChange();
-			}.bind(this), 1000);
-			this.onSliderLiveChange();
-		},
-		
 		getWsConnection: function () {
 			this.oWs = new WebSocket(
 				"ws://servoremote-188.local/ws"
