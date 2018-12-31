@@ -141,13 +141,15 @@ void setup() {
   // When the button is pressed in the WebApp
   server.on("/min", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
-    request->send(200, F("text/json"), moveServoTo(atoi(angleMin)));    
+    pos = atoi(angleMin);
+    request->send(200, F("text/json"), moveServoTo(pos));
   }); 
 
   server.on("/max", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
-    request->send(200, F("text/json"), moveServoTo(atoi(angleMax)));    
-  }); 
+    pos = atoi(angleMax);
+    request->send(200, F("text/json"), moveServoTo(pos));
+  });
 
   server.on("/getState", HTTP_GET, [](AsyncWebServerRequest *request){
     // create json return
@@ -188,8 +190,8 @@ void onRequest(AsyncWebServerRequest *request){
 }
 
 String moveServoTo(int pos){
-    Serial.print(F(" Move Servo to: "));
-    Serial.println(pos);
+    // Serial.print(F(" Move Servo to: "));
+    // Serial.println(pos);
     myservo.write(pos);
 
     // create json return
@@ -229,10 +231,13 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
         }
         os_printf("\n");
       }
-      if(info->opcode == WS_TEXT)
-        client->text("I got your text message");
-      else
+      if(info->opcode == WS_TEXT) {
+        pos = atoi((char*)data);
+        moveServoTo(pos);
+        client->text((char*)data);
+      } else {
         client->binary("I got your binary message");
+      }
     } else {
       //message is comprised of multiple frames or the frame is split into multiple packets
       if(info->index == 0){
