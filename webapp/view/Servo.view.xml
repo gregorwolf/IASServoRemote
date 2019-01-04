@@ -4,8 +4,12 @@
 		<pages>
 			<Page title="{i18n>title}">
 				<content>
-					<Slider enableTickmarks="true" min="0" max="180" step="5" 
-						value="{/pos}"
+					<Slider id="servo1" enableTickmarks="true" min="0" max="180" step="5" 
+						value="{/servo1pos}"
+						liveChange="onSliderLiveChange"
+						class="sapUiLargeMarginBottom" width="100%"/>
+					<Slider id="servo2" enableTickmarks="true" min="0" max="180" step="5" 
+						value="{/servo2pos}"
 						liveChange="onSliderLiveChange"
 						class="sapUiLargeMarginBottom" width="100%"/>
 				</content>

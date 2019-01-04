@@ -18,15 +18,19 @@ sap.ui.define([
 			}
 			this.posBefore = 90;
 			this.oModel = new sap.ui.model.json.JSONModel({
-				"pos": this.posBefore,
-				"buttonPos": 80
+				"servo1pos": this.posBefore,
+				"servo2pos": this.posBefore
 			});
 			this.getView().setModel(this.oModel);
 			this.getWsConnection();
 		},
 
 		onSliderLiveChange: function (event) {
-			this.oWs.send(this.oModel.getProperty("/pos").toString());
+			var oSource = event.getSource();
+			var p = parseInt(this.oModel.getProperty("/servo2pos").toString());
+			var s = 2;
+			var message = { p: p, s: s };
+			this.oWs.send();
 		},
 		
 		getWsConnection: function () {
