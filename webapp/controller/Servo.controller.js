@@ -30,9 +30,12 @@ sap.ui.define([
 		},
 		
 		getWsConnection: function () {
-			this.oWs = new WebSocket(
-				"ws://servoremote-188.local/ws"
-			);
+			var wsServer = window.location.hostname;
+			if(wsServer === 'localhost') {
+				wsServer = "servoremote-188.local";
+			}
+			var wsURL = "ws://" + wsServer + "/ws";
+			this.oWs = new WebSocket(wsURL);
 
 			this.oWs.attachOpen(function (e) {
 				sap.m.MessageToast.show('Websocket connection opened');
