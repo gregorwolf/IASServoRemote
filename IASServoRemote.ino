@@ -1,28 +1,5 @@
 /*
-	This is an initial sketch to be used as a "blueprint" to create apps which can be used with IOTappstory.com infrastructure
-  Your code can be filled wherever it is marked.
-
-  Copyright (c) [2016] [Andreas Spiess]
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-  virginSoilFull V2.2.2
+  Copyright (c) [2019] [Gregor Wolf]
 */
 
 #define COMPDATE __DATE__ __TIME__
@@ -41,7 +18,7 @@
 #include <FS.h>
 
 #include <Servo.h>
-#include <ArduinoJson.h>
+// #include <ArduinoJson.h>
 
 IOTAppStory IAS(COMPDATE, MODEBUTTON);  // Initialize IotAppStory
 AsyncWebServer server(80);              // Initialize AsyncWebServer
@@ -72,8 +49,8 @@ char* servo1Pin = "16"; // D0
 char* servo2Pin = "14"; // D5
 char* ledPin = "2";
 
-const size_t bufferSize = JSON_OBJECT_SIZE(2) + 20;
-DynamicJsonBuffer jsonBuffer(bufferSize);
+// const size_t bufferSize = JSON_OBJECT_SIZE(2) + 20;
+// DynamicJsonBuffer jsonBuffer(bufferSize);
 
 // ================================================ SETUP ================================================
 void setup() {
@@ -88,8 +65,6 @@ void setup() {
   IAS.preSetDeviceName(deviceName);                   // preset deviceName this is also your MDNS responder: http://websocketservo.local
   IAS.preSetAutoUpdate(true);                         // automaticUpdate (true, false)
   //IAS.preSetAutoConfig(false);                      // automaticConfig (true, false)
-  //IAS.preSetWifi("SSID","PASSWORD");                // preset Wifi
-  /* TIP! Delete Wifi cred. when you publish your App. */
 
   IAS.addField(angleMin,    "Angle Min",     8, 'N');
   IAS.addField(angleCenter, "Angle Center",     8, 'N');
@@ -242,6 +217,7 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
         os_printf("\n");
       }
       if(info->opcode == WS_TEXT) {
+        /*
         JsonObject& root = jsonBuffer.parseObject((char*)data);
         int s = root["s"]; // 1
         int p = root["p"]; // 180
@@ -250,6 +226,8 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
         } else if(s = 2) {
           moveServoTo(myservo2, p);
         }
+        */
+        moveServoTo(myservo2, atoi((char*)data));
         client->text((char*)data);
       } else {
         client->binary("I got your binary message");
