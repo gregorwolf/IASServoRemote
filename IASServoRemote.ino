@@ -41,12 +41,14 @@
 #include <FS.h>
 
 #include <Servo.h>
+#include <ArduinoJson.h>
 
 IOTAppStory IAS(COMPDATE, MODEBUTTON);  // Initialize IotAppStory
 AsyncWebServer server(80);              // Initialize AsyncWebServer
 AsyncWebSocket ws("/ws");
 AsyncEventSource events("/events");
-Servo myservo;                          // create servo object to control a servo
+Servo myservo1;                          // create servo object to control a servo
+Servo myservo2;                          // create servo object to control a servo
 
 // ================================================ VARS =================================================
 int pos;
@@ -66,8 +68,12 @@ char* angleMin    = "0";
 char* angleCenter = "90";
 char* angleMax    = "180";
 
-char* servoPin = "16";
+char* servo1Pin = "16"; // D0
+char* servo2Pin = "14"; // D5
 char* ledPin = "2";
+
+const size_t bufferSize = JSON_OBJECT_SIZE(2) + 20;
+DynamicJsonBuffer jsonBuffer(bufferSize);
 
 // ================================================ SETUP ================================================
 void setup() {
@@ -90,7 +96,8 @@ void setup() {
   IAS.addField(angleMax,    "Angle Max",   8, 'N');
   
   IAS.addField(ledPin,   "LED Pin",   2, 'P');
-  IAS.addField(servoPin, "Servo Pin", 2, 'P');
+  IAS.addField(servo1Pin, "Servo 1 Pin", 2, 'P');
+  IAS.addField(servo2Pin, "Servo 2 Pin", 2, 'P');
 
   // You can configure callback functions that can give feedback to the app user about the current state of the application.
   // In this example we use serial print to demonstrate the call backs. But you could use leds etc.
@@ -125,14 +132,17 @@ void setup() {
       return;
   }
   
-  Serial.print(F(" Attach Servo to Pin: "));
-  Serial.println(servoPin);
-  myservo.attach(atoi(servoPin));
+  Serial.print(F(" Attach Servo 1 to Pin: "));
+  Serial.println(servo1Pin);
+  myservo1.attach(atoi(servo1Pin));
+  Serial.print(F(" Attach Servo 2 to Pin: "));
+  Serial.println(servo2Pin);
+  myservo2.attach(atoi(servo2Pin));
   pos = atoi(angleCenter);
-  Serial.print(F(" Move Servo to: "));
+  Serial.print(F(" Move Servo 1 and 2 to: "));
   Serial.println(pos);
-  myservo.write(pos);
-  
+  myservo1.write(pos);
+  myservo2.write(pos);  
 
   // attach AsyncWebSocket
   ws.onEvent(onEvent);
@@ -142,13 +152,13 @@ void setup() {
   server.on("/min", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
     pos = atoi(angleMin);
-    request->send(200, F("text/json"), moveServoTo(pos));
+    request->send(200, F("text/json"), moveServoTo(myservo1, pos));
   }); 
 
   server.on("/max", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
     pos = atoi(angleMax);
-    request->send(200, F("text/json"), moveServoTo(pos));
+    request->send(200, F("text/json"), moveServoTo(myservo1, pos));
   });
 
   server.on("/getState", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -189,10 +199,10 @@ void onRequest(AsyncWebServerRequest *request){
   request->send(404);
 }
 
-String moveServoTo(int pos){
+String moveServoTo(Servo servo, int pos){
     // Serial.print(F(" Move Servo to: "));
     // Serial.println(pos);
-    myservo.write(pos);
+    servo.write(pos);
 
     // create json return
     String json = "{";
@@ -232,8 +242,14 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
         os_printf("\n");
       }
       if(info->opcode == WS_TEXT) {
-        pos = atoi((char*)data);
-        moveServoTo(pos);
+        JsonObject& root = jsonBuffer.parseObject((char*)data);
+        int s = root["s"]; // 1
+        int p = root["p"]; // 180
+        if(s = 1) {
+          moveServoTo(myservo1, p);
+        } else if(s = 2) {
+          moveServoTo(myservo2, p);
+        }
         client->text((char*)data);
       } else {
         client->binary("I got your binary message");
