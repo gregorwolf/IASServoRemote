@@ -12,6 +12,6 @@ ui5 build preload --exclude-task=createDebugFiles
 #rm -r dist/extended*
 cp -r dist data
 # grunt compress
-/Users/gwolf/.platformio/packages/tool-mkspiffs/mkspiffs_espressif8266_arduino --size 0xFB000 --page 256 --block 4096 -d 5 --create data/ IASServoRemote.spiffs.bin
+# /Users/gwolf/.platformio/packages/tool-mkspiffs/mkspiffs_espressif8266_arduino --size 0xFB000 --page 256 --block 4096 -d 5 --create data/ IASServoRemote.spiffs.bin
 # /Users/gwolf/.platformio/packages/tool-mkspiffs/mkspiffs_espressif8266_arduino --size 1004 --page 256 --block 8192 -d 5 --create data/ IASServoRemote.spiffs.bin
 
