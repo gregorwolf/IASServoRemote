@@ -18,7 +18,7 @@
 #include <FS.h>
 
 #include <Servo.h>
-// #include <ArduinoJson.h>
+#include <ArduinoJson.h>
 
 IOTAppStory IAS(COMPDATE, MODEBUTTON);  // Initialize IotAppStory
 AsyncWebServer server(80);              // Initialize AsyncWebServer
@@ -49,8 +49,8 @@ char* servo1Pin = "16"; // D0
 char* servo2Pin = "14"; // D5
 char* ledPin = "2";
 
-// const size_t bufferSize = JSON_OBJECT_SIZE(2) + 20;
-// DynamicJsonBuffer jsonBuffer(bufferSize);
+const size_t bufferSize = JSON_OBJECT_SIZE(2) + 20;
+DynamicJsonBuffer jsonBuffer(bufferSize);
 
 // ================================================ SETUP ================================================
 void setup() {
@@ -127,13 +127,15 @@ void setup() {
   server.on("/min", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
     pos = atoi(angleMin);
-    request->send(200, F("text/json"), moveServoTo(myservo1, pos));
+    moveServoTo(1, pos);
+    request->send(200, F("text/json"), String(pos));
   }); 
 
   server.on("/max", HTTP_GET, [](AsyncWebServerRequest *request){
     Serial.println(F("\n Min button pressed"));
     pos = atoi(angleMax);
-    request->send(200, F("text/json"), moveServoTo(myservo1, pos));
+    moveServoTo(1, pos);
+    request->send(200, F("text/json"), String(pos));
   });
 
   server.on("/getState", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -174,16 +176,18 @@ void onRequest(AsyncWebServerRequest *request){
   request->send(404);
 }
 
-String moveServoTo(Servo servo, int pos){
-    // Serial.print(F(" Move Servo to: "));
-    // Serial.println(pos);
-    servo.write(pos);
+void moveServoTo(int s, int p){
 
-    // create json return
-    String json = "{";
-    json += "\"pos\":\""+String(pos)+"\"";
-    json += "}";
-    return json;
+    Serial.print(F(" Servo: "));
+    Serial.println(s);
+    Serial.print(F(" Position: "));
+    Serial.println(p);
+
+    if(s == 1) {
+      myservo1.write(p);
+    } else if(s == 2) {
+      myservo2.write(p);
+    }
 }
 
 void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len){
@@ -217,18 +221,17 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
         os_printf("\n");
       }
       if(info->opcode == WS_TEXT) {
-        /*
         JsonObject& root = jsonBuffer.parseObject((char*)data);
         int s = root["s"]; // 1
         int p = root["p"]; // 180
-        if(s = 1) {
-          moveServoTo(myservo1, p);
-        } else if(s = 2) {
-          moveServoTo(myservo2, p);
-        }
-        */
-        moveServoTo(myservo2, atoi((char*)data));
-        client->text((char*)data);
+        moveServoTo(s, p);
+
+        // create json return
+        String json = "{";
+        json += "\"s\":\""+String(s)+"\"";
+        json += "\"p\":\""+String(p)+"\"";
+        json += "}";
+        client->text(json);
       } else {
         client->binary("I got your binary message");
       }
