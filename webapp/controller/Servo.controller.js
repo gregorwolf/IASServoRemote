@@ -27,10 +27,14 @@ sap.ui.define([
 
 		onSliderLiveChange: function (event) {
 			var oSource = event.getSource();
-			var p = parseInt(this.oModel.getProperty("/servo2pos").toString());
-			var s = 2;
+			var p = parseInt(this.oModel.getProperty("/servo1pos").toString());
+			var s = 1;
+			if(oSource.getId() === '__xmlview0--servo2') {
+				s = 2;
+				p = parseInt(this.oModel.getProperty("/servo2pos").toString());
+			}
 			var message = { p: p, s: s };
-			this.oWs.send();
+			this.oWs.send(JSON.stringify(message));
 		},
 		
 		getWsConnection: function () {
@@ -54,7 +58,12 @@ sap.ui.define([
 
 			this.oWs.attachMessage(function (oEvent) {
 				var message = oEvent.getParameter("data");
-				this.oModel.setProperty("/pos", Number(message));
+				var oMessage = JSON.parse(message);
+				if(oMessage.s === 1) {
+					this.oModel.setProperty("/servo1pos", Number(oMessage.p));
+				} else if (oMessage.s === 2) {
+					this.oModel.setProperty("/servo2pos", Number(oMessage.p));
+				}
 			}.bind(this));
 		}
 	});
