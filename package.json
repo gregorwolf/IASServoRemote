@@ -1,5 +1,5 @@
 {
-  "name": "IASServoRemote-UI",
+  "name": "iasservoremote-ui",
   "version": "1.0.0",
   "description": "OpenUI5 UI to Control a ESP8266 Servo",
   "main": "index.js",
