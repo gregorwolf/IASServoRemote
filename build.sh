@@ -7,10 +7,7 @@ mv dist/index-multiple-parts.htm dist/index.htm
 mv dist/resources dist/res
 grunt compress
 rm -r data/res/sap
-rm -r data/**/*.js
-rm -r data/**/*-dbg.*
 rm -r data/controller
-rm -r data/extended*
 rm data/res/jquery*
 rm data/res/*boot*
 rm data/res/*core*
