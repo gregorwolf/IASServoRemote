@@ -12,6 +12,7 @@ builder:
       - ".view.xml"
       - ".properties"
       - ".json"
+      - ".css"
       sections:
       - mode: raw
         filters:
@@ -21,9 +22,12 @@ builder:
         declareModules: false
       - mode: preload
         filters:
-        - "sap/ui/demo/todo/"
-        - "!sap/ui/demo/todo/test/"
-        - "!sap/ui/demo/todo/*.html"
+        - "de/linuxdozent/ServoControl*"
+        - "sap/ui/core/themes/sap_belize/*.css"
+        - "sap/m/themes/sap_belize/*.css"
+        - "sap/ui/layout/themes/sap_belize/*.css"
+        - "sap/ui/core/themes/sap_belize/fonts/72-Regular.woff"
+        - "!sap/ui/model/odata*"
         - "sap/ui/core/Core.js"
         resolve: true
         resolveConditional: true

@@ -43,6 +43,18 @@ module.exports = function(grunt) {
                     src: ['**/*.css'],
                     dest: 'data/',
                     ext: '.css.gz'
+                },{
+                    expand: true,
+                    cwd: 'dist/',
+                    src: ['**/*.woff'],
+                    dest: 'data/',
+                    ext: '.woff.gz'
+                },{
+                    expand: true,
+                    cwd: 'dist/',
+                    src: ['**/*.woff2'],
+                    dest: 'data/',
+                    ext: '.woff2.gz'
                 }]
             }
         }
