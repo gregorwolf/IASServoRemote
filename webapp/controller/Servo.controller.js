@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/core/ws/WebSocket"
-], function (Controller, WebSocket) {
+	"sap/ui/core/ws/WebSocket",
+	"sap/base/Log"
+], function (Controller, WebSocket, Log) {
 	"use strict";
 
 	return Controller.extend("de.linuxdozent.ServoControl.controller.Servo", {
@@ -58,12 +59,16 @@ sap.ui.define([
 
 			this.oWs.attachMessage(function (oEvent) {
 				var message = oEvent.getParameter("data");
-				var oMessage = JSON.parse(message);
-				if(oMessage.s === 1) {
-					this.oModel.setProperty("/servo1pos", Number(oMessage.p));
-				} else if (oMessage.s === 2) {
-					this.oModel.setProperty("/servo2pos", Number(oMessage.p));
-				}
+				try {
+					var oMessage = JSON.parse(message);
+					if(oMessage.s === 1) {
+						this.oModel.setProperty("/servo1pos", Number(oMessage.p));
+					} else if (oMessage.s === 2) {
+						this.oModel.setProperty("/servo2pos", Number(oMessage.p));
+					}
+				} catch (e) {
+					Log.info(message)
+				}				
 			}.bind(this));
 		}
 	});
