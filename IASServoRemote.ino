@@ -228,7 +228,7 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
 
         // create json return
         String json = "{";
-        json += "\"s\":\""+String(s)+"\"";
+        json += "\"s\":\""+String(s)+"\",";
         json += "\"p\":\""+String(p)+"\"";
         json += "}";
         client->text(json);
