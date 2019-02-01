@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
-	"de/linuxdozent/ServoControl/model/models"
+	"de/linuxdozent/ServoControl/model/models", 
+	"sap/ui/core/ComponentSupport"
 ], function (UIComponent, Device, models) {
 	"use strict";
 
