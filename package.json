@@ -6,7 +6,7 @@
   "repository": "git@bitbucket.org:gregorwolf/iasservoremote.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && ui5 build --a --exclude-task=createDebugFiles --exclude-task=generateLibraryPreload"
+    "build": "rimraf dist && ui5 build --a --exclude-task=createDebugFiles --exclude-task=generateLibraryPreload --exclude-task=uglify"
   },
   "keywords": [],
   "author": "gregor.wolf@gmail.com",
