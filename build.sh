@@ -1,4 +1,5 @@
 #!/bin/bash
+npm install
 rm -rf data
 npm run-script build
 # ui5 build --all --exclude-task=createDebugFiles
