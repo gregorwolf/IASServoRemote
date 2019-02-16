@@ -2,7 +2,7 @@
 npm install
 rm -rf data
 npm run-script build
-mv dist/index-multiple-parts.htm dist/index.htm
+#mv dist/index-multiple-parts.htm dist/index.htm
 mv dist/resources dist/res
 grunt compress
 rm -r data/res/sap
