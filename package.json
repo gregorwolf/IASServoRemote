@@ -12,15 +12,15 @@
   "author": "gregor.wolf@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "@openui5/sap.m": "^1.67.1",
-    "@openui5/sap.ui.core": "^1.67.1",
-    "@openui5/sap.ui.layout": "^1.67.1",
-    "@openui5/sap.ui.support": "^1.67.1",
-    "@openui5/themelib_sap_belize": "^1.67.1"
+    "@openui5/sap.m": "^1.89.1",
+    "@openui5/sap.ui.core": "^1.89.1",
+    "@openui5/sap.ui.layout": "^1.89.1",
+    "@openui5/sap.ui.support": "^1.89.1",
+    "@openui5/themelib_sap_belize": "^1.89.1"
   },
   "devDependencies": {
-    "grunt": "^1.0.4",
-    "grunt-contrib-compress": "^1.5.0",
-    "rimraf": "^2.6.3"
+    "grunt": "^1.4.0",
+    "grunt-contrib-compress": "^2.0.0",
+    "rimraf": "^3.0.2"
   }
 }
