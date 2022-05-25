@@ -19,7 +19,7 @@
     "@openui5/themelib_sap_belize": "^1.89.1"
   },
   "devDependencies": {
-    "grunt": "^1.4.0",
+    "grunt": "^1.5.3",
     "grunt-contrib-compress": "^2.0.0",
     "rimraf": "^3.0.2"
   }
